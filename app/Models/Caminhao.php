@@ -1,6 +1,18 @@
 <?php
 
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
 class Caminhao extends Model
 {
-    protected $fillable = ['placa', 'modelo', 'qtd_eixos'];
+    use HasFactory;
+
+    protected $fillable = [
+        'placa',
+        'modelo',
+        'quantidade_eixos',
+    ];
 }

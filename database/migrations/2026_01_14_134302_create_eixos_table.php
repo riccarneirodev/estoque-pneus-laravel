@@ -23,8 +23,10 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
-        Schema::dropIfExists('eixos');
+    public function caminhao() {
+        return $this->belongsTo(Caminhao::class);
+    }
+    public function posicoes () {
+        return $this->hasMany(Posicao::class);
     }
 };
