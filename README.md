@@ -1,59 +1,68 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Estoque de Pneus (Laravel)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Visão geral
+O **Estoque de Pneus** é uma aplicação Laravel voltada para o cadastro e o gerenciamento de caminhões e seus pneus. Atualmente, a base do projeto contempla telas simples (Blade) para listar e criar caminhões e pneus, além das estruturas de banco de dados para caminhões, pneus, eixos e posições. O objetivo é oferecer um ponto de partida para o controle de inventário e relacionamentos entre veículos e pneus em um ambiente logístico.
 
-## About Laravel
+## Funcionalidades atuais
+- **Cadastro e listagem de caminhões** (placa, modelo e quantidade de eixos).
+- **Cadastro e listagem de pneus** com vínculo a um caminhão (código, marca, modelo, medida, vida e caminhão).
+- **Migrations** para caminhões, pneus, eixos e posições, preparando o banco para evoluções futuras do domínio (como configuração de eixos e posições).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Principais entidades
+- **Caminhão**: registra placa, modelo e quantidade de eixos.
+- **Pneu**: registra dados de identificação do pneu e referencia um caminhão.
+- **Eixo**: estrutura de dados para organização de eixos por caminhão (previsto nas migrations).
+- **Posição**: estrutura de dados para posições dentro de um eixo (previsto nas migrations).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Rotas principais
+As rotas abaixo já estão configuradas para caminhões e pneus:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- `GET /caminhoes` → lista caminhões
+- `GET /caminhoes/create` → formulário de criação de caminhão
+- `POST /caminhoes` → salva caminhão
+- `GET /pneus` → lista pneus
+- `GET /pneus/create` → formulário de criação de pneu
+- `POST /pneus` → salva pneu
 
-## Learning Laravel
+## Requisitos
+- PHP 8.1+
+- Composer
+- Node.js e npm (para assets front-end via Vite)
+- Banco de dados (MySQL, PostgreSQL ou outro compatível com Laravel)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Como rodar localmente
+1. Instale as dependências PHP:
+   ```bash
+   composer install
+   ```
+2. Copie o arquivo de ambiente e gere a chave:
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+3. Configure o banco de dados no `.env`.
+4. Rode as migrations:
+   ```bash
+   php artisan migrate
+   ```
+5. (Opcional) Instale as dependências front-end:
+   ```bash
+   npm install
+   npm run dev
+   ```
+6. Suba o servidor de desenvolvimento:
+   ```bash
+   php artisan serve
+   ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Estrutura do projeto (resumo)
+- `app/Http/Controllers` → controllers de caminhões e pneus.
+- `app/Models` → models do domínio (Caminhão, Pneu, Eixo, Posição).
+- `database/migrations` → esquema de banco de dados.
+- `resources/views` → telas Blade simples para CRUD básico.
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Próximos passos sugeridos
+- Criar CRUD completo para **eixos** e **posições**.
+- Adicionar validações e mensagens de erro mais amigáveis nos formulários.
+- Melhorar o layout das páginas com um framework CSS (ex.: Tailwind, Bootstrap).
+- Criar autenticação para controle de acesso.
