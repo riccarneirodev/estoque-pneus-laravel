@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('pneus', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo')->unique();
+            $table->foreignId('posicao_id')->constrained('posicaos')->onDelete('cascade');
+            $table->string('numero_fogo')->unique();
             $table->string('marca');
             $table->string('modelo');
-            $table->string('medida');
             $table->integer('vida')->default(1);
-            $table->foreignId('caminhao_id')->constrained('caminhaos')->onDelete('cascade');
+            $table->integer('km_rodados')->default(0);
+            $table->date('data_instalacao')->nullable();
             $table->timestamps();
         });
     }

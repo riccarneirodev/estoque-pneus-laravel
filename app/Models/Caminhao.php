@@ -8,11 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Caminhao extends Model
 {
-    use HasFactory;
+    protected $fillable = ['placa', 'modelo', 'quantidade_eixos'];
 
-    protected $fillable = [
-        'placa',
-        'modelo',
-        'quantidade_eixos',
-    ];
+    public function eixos()
+    {
+        return $this->hasMany(Eixo::class);
+    }
 }

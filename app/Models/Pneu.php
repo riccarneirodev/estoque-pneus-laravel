@@ -2,25 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use app\Models\Caminhao;
 
 class Pneu extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
-        'codigo',
+        'posicao_id',
+        'numero_fogo',
         'marca',
         'modelo',
-        'medida',
         'vida',
-        'caminhao_id',
+        'km_rodado',
+        'data_instalacao',
     ];
-    
-    public function caminhao()
+
+    public function posicao()
     {
-        return $this->belongsTo(Caminhao::class);
+        return $this->belongsTo(Posicao::class);
     }
 }

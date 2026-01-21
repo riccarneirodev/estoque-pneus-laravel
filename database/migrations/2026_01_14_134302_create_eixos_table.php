@@ -6,27 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('eixos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('caminhao_id')->constrained()->onDelete('cascade');
+            $table->foreignId('caminhao_id')->constrained()->cascadeOnDelete();
             $table->integer('numero_eixo');
-            $table->string('tipo'); // direcional ou tracao
+            $table->string('tipo');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function caminhao() {
-        return $this->belongsTo(Caminhao::class);
-    }
-    public function posicoes () {
-        return $this->hasMany(Posicao::class);
+    public function down(): void
+    {
+        Schema::dropIfExists('eixos');
     }
 };
