@@ -8,10 +8,11 @@ class Pneu extends Model
 {
     protected $fillable = [
         'posicao_id',
-        'numero_fogo',
         'marca',
         'modelo',
+        'medida',
         'vida',
+        'status',
         'km_rodado',
         'data_instalacao',
     ];
@@ -21,3 +22,5 @@ class Pneu extends Model
         return $this->belongsTo(Posicao::class);
     }
 }
+
+

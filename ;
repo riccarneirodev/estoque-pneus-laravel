@@ -1,0 +1,11 @@
+[90m= [39m[34;4mApp\Models\Caminhao[39;24m {#6450
+    [34mid[39m: [35m1[39m,
+    [34mplaca[39m: "[32mPRF - 3738[39m",
+    [34mmodelo[39m: "[32mFH 540[39m",
+    [34mquantidade_eixos[39m: [35m9[39m,
+    [34mtipo[39m: "",
+    [34mmarca[39m: "",
+    [34mcreated_at[39m: "[32m2026-01-21 18:07:41[39m",
+    [34mupdated_at[39m: "[32m2026-01-21 18:07:41[39m",
+  }
+

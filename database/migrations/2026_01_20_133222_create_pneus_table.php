@@ -4,31 +4,26 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
-    /**
-     * Run the migrations.
-     */
+return new class extends Migration {
     public function up(): void
     {
-        Schema::create('pneus', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('posicao_id')->constrained('posicaos')->onDelete('cascade');
-            $table->string('numero_fogo')->unique();
-            $table->string('marca');
-            $table->string('modelo');
-            $table->integer('vida')->default(1);
-            $table->integer('km_rodados')->default(0);
-            $table->date('data_instalacao')->nullable();
-            $table->timestamps();
+        Schema::table('pneus', function (Blueprint $table) {
+            $table->string('medida')->after('modelo');
+            $table->string('status')->default('em_uso')->after('vida');
+            $table->integer('km_rodado')->default(0)->after('status');
+            $table->date('data_instalacao')->nullable()->after('km_rodado');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('pneus');
+        Schema::table('pneus', function (Blueprint $table) {
+            $table->dropColumn([
+                'medida',
+                'status',
+                'km_rodado',
+                'data_instalacao'
+            ]);
+        });
     }
 };

@@ -23,42 +23,47 @@ class CaminhaoController extends Controller
 
     public function show($id)
     {
-        $caminhao = Caminhao::with('eixos.posicoes.pneu')->findOrFail($id);
         $caminhao = Caminhao::with([
         'eixos.posicoes.pneu'
     ])->findOrFail($id);
+
+    $caminhao->load('eixos.posicoes');
 
         return view('caminhoes.show', compact('caminhao'));
     }
 
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'placa' => ['required', 'string', Rule::unique('caminhaos', 'placa')],
-            'modelo' => ['required', 'string'],
-            'quantidade_eixos' => ['required', 'integer', 'min:1'],
+{
+    $request->validate([
+        'placa' => 'required|unique:caminhaos',
+        'modelo' => 'required',
+        'quantidade_eixos' => 'required|integer|min:1',
+    ]);
+
+    $caminhao = Caminhao::create($request->all());
+
+    for ($i = 1; $i <= $caminhao->quantidade_eixos; $i++) {
+
+        $eixo = Eixo::create([
+            'caminhao_id' => $caminhao->id,
+            'numero_eixo' => $i,
+            'tipo' => $i === 1 ? 'direcional' : 'tracao',
         ]);
 
-        $caminhao = Caminhao::create($validated);
+        foreach (['esquerda', 'direita'] as $lado) {
+            foreach (['interno', 'externo'] as $tipo) {
 
-        for ($i = 1; $i <= $caminhao->quantidade_eixos; $i++) {
-            $eixo = Eixo::create([
-                'caminhao_id' => $caminhao->id,
-                'numero_eixo' => $i,
-                'tipo' => $i == 1 ? 'direcional' : 'tracao',
-            ]);
-
-            foreach (['esquerda', 'direita'] as $lado) {
-                foreach (['interno', 'externo'] as $tipo) {
-                    Posicao::create([
-                        'eixo_id' => $eixo->id,
-                        'lado' => $lado,
-                        'tipo' => $tipo,
-                    ]);
-                }
+                Posicao::create([
+                    'eixo_id' => $eixo->id,
+                    'lado'    => $lado,
+                    'tipo'    => $tipo,
+                ]);
             }
         }
-
-        return redirect()->route('caminhoes.index');
     }
+
+    return redirect()->route('caminhoes.index')
+        ->with('success', 'Caminhão cadastrado com sucesso!');
+}
+
 }
